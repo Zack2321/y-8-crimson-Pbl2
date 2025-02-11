@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>SVG Time Series Graph (No JS)</title>
+  <style>
+    /* Basic styling for the SVG chart */
+    .chart {
+      max-width: 800px;
+      display: block;
+      margin: 0 auto;
+      background: #f9f9f9;
+      border: 1px solid #ddd;
+    }
+    .axis {
+      stroke: #333;
+      stroke-width: 2;
+    }
+    .grid-line {
+      stroke: #ccc;
+      stroke-width: 0.5;
+      stroke-dasharray: 2,2;
+    }
+    .data-line {
+      fill: none;
+      stroke: steelblue;
+      stroke-width: 2;
+    }
+    .data-point {
+      fill: steelblue;
+      stroke: #fff;
+      stroke-width: 1;
+    }
+    .label {
+      font-family: sans-serif;
+      font-size: 12px;
+      fill: #333;
+    }
+  </style>
+</head>
+<body>
+  <h2 style="text-align:center;">Time Series Graph Using SVG (No JavaScript)</h2>
+  <svg class="chart" width="800" height="400" viewBox="0 0 800 400">
+    <!-- Define margins for axes -->
+    <!-- Left margin: 50px, Right margin: 50px, Top margin: 50px, Bottom margin: 50px -->
+    <!-- Plotting area is from (50,50) to (750,350) -->
+    
+    <!-- X-Axis (horizontal) -->
+    <line class="axis" x1="50" y1="350" x2="750" y2="350" />
+    <!-- Y-Axis (vertical) -->
+    <line class="axis" x1="50" y1="350" x2="50" y2="50" />
+    
+    <!-- Y-Axis Grid Lines and Labels -->
+    <!-- Assume the data values range from 0 to 20.
+         Map the y-values using a scale factor:
+         plotHeight = 300 px (from 350 to 50), so scale = 300 / 20 = 15 px per unit.
+         y-coordinate = 350 - (value * 15)
+    -->
+    <!-- Tick for 0 -->
+    <line class="grid-line" x1="50" y1="350" x2="750" y2="350" />
+    <text class="label" x="35" y="350" dy="4" text-anchor="end">0</text>
+    <!-- Tick for 5 -->
+    <line class="grid-line" x1="50" y1="275" x2="750" y2="275" />
+    <text class="label" x="35" y="275" dy="4" text-anchor="end">5</text>
+    <!-- Tick for 10 -->
+    <line class="grid-line" x1="50" y1="200" x2="750" y2="200" />
+    <text class="label" x="35" y="200" dy="4" text-anchor="end">10</text>
+    <!-- Tick for 15 -->
+    <line class="grid-line" x1="50" y1="125" x2="750" y2="125" />
+    <text class="label" x="35" y="125" dy="4" text-anchor="end">15</text>
+    <!-- Tick for 20 -->
+    <line class="grid-line" x1="50" y1="50" x2="750" y2="50" />
+    <text class="label" x="35" y="50" dy="4" text-anchor="end">20</text>
+    
+    <!-- Data Points and Line -->
+    <!-- Data details:
+         Dates:       Feb 1, Feb 2, Feb 3, Feb 4, Feb 5
+         Values:      12,    19,    3,    5,    2
+         X positions: Spread evenly across the x-range (50 to 750).
+         There are 5 points so the horizontal spacing is:
+         (750 - 50) / (5 - 1) = 700 / 4 = 175 px.
+         
+         Calculate each x:
+         Feb 1: x = 50
+         Feb 2: x = 50 + 175 = 225
+         Feb 3: x = 225 + 175 = 400
+         Feb 4: x = 400 + 175 = 575
+         Feb 5: x = 575 + 175 = 750
+         
+         Calculate each y using: y = 350 - (value * 15)
+         Feb 1 (value 12): y = 350 - (12×15) = 350 - 180 = 170
+         Feb 2 (value 19): y = 350 - (19×15) = 350 - 285 = 65
+         Feb 3 (value 3):  y = 350 - (3×15)  = 350 - 45  = 305
+         Feb 4 (value 5):  y = 350 - (5×15)  = 350 - 75  = 275
+         Feb 5 (value 2):  y = 350 - (2×15)  = 350 - 30  = 320
+    -->
+    
+    <!-- Draw the data line as a polyline -->
+    <polyline class="data-line"
+      points="
+        50,170
+        225,65
+        400,305
+        575,275
+        750,320
+      " />
+    
+    <!-- Draw data points as circles -->
+    <circle class="data-point" cx="50"  cy="170" r="4" />
+    <circle class="data-point" cx="225" cy="65"  r="4" />
+    <circle class="data-point" cx="400" cy="305" r="4" />
+    <circle class="data-point" cx="575" cy="275" r="4" />
+    <circle class="data-point" cx="750" cy="320" r="4" />
+    
+    <!-- X-Axis Labels for each date -->
+    <text class="label" x="50"  y="370" text-anchor="middle">Feb 1</text>
+    <text class="label" x="225" y="370" text-anchor="middle">Feb 2</text>
+    <text class="label" x="400" y="370" text-anchor="middle">Feb 3</text>
+    <text class="label" x="575" y="370" text-anchor="middle">Feb 4</text>
+    <text class="label" x="750" y="370" text-anchor="middle">Feb 5</text>
+  </svg>
+</body>
+</html>
